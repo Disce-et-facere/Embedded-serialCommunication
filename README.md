@@ -17,5 +17,5 @@ How to run sim:
 1. open url
 2. press F1
 3. type upload and press enter
-4. upload firmware.hex file (PlatformIO\Projects\Project-name\.pio\build\uno\firmware.hex)
+4. upload firmware.hex file (PlatformIO\Projects\Project-name\\.pio\build\uno\firmware.hex)
 5. Good to go!
