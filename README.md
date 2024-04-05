@@ -4,8 +4,9 @@
 1. start new platformIO project.
 2. Board Arduino uno
 3. Framework arduino
-4. open platformIO.ini and remove "Framework = arduino" line. (Check the ini file in the repo for example.)
-6. build project.
+4. Open platformIO.ini and remove "Framework = arduino" line. (Check the ini file in the repo for example.)
+5. Copy src and include folder/files to your project.
+6. Build project.
 7. Good to go!
 
 
