@@ -12,8 +12,6 @@
 #define OUTPUT 1
 #define INPUT 0
 #define INPUT_PULLUP 2
-#define HIGH 1
-#define LOW 0
 // Serial Register addresses and Bits.
 #define UDR0   (*(volatile uint8_t *)0xC6) // USART DATA REGISTER 0 (Universal Synchronous/Asynchronous Receiver-Transmitter)
 #define UBRR0H (*(volatile uint8_t *)0xC5) // USART BAUD REGISTER HIGH
