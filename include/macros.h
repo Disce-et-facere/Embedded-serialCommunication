@@ -6,7 +6,6 @@
 #define PORTB (*(volatile uint8_t *)0x25)
 #define DDRB  (*(volatile uint8_t *)0x24)
 #define PINB  (*(volatile uint8_t *)0x23)
-
 #define PB0 0 // pin 8 led
 #define PB1 1 // pin 9 button
 
@@ -48,7 +47,5 @@
 #define CS11_BIT     1
 #define CS10_BIT     0
 #define OCIE1A_BIT   1
-
-
 
 #endif  // MACROS_H
