@@ -1,21 +1,20 @@
-#include "macros.h"
+#include <macros.h>
 #include "readWritePin.h"
 #include "pinSetup.h"
 #include "serial.h"
 
-int main(void) {
-    pinMode(&DDRB, PB0, OUTPUT);
-    pinMode(&DDRB, PB1, INPUT_PULLUP);
+int main(void){ 
+    pinInit();
     serialInit();
-    serialWrite('B');
+    char message[23] = "Enter: ledpower 0-255\n\0";
+    serialWriteString(message);
     while (1) {
-        if (digitalRead(PINB, PB1) == LOW) {
-            toggleOutputPinState(&PORTB, PB0);
+        if (!digitalRead(PINB, PB1)) {
+            togglePinBit(&PORTB, PB0);
         }
 
-        if (UART_CONTROL_REG_A & (1 << RXC0)) {
-            uint8_t receivedData = serialRead();
-            serialWrite(receivedData);
+        if (serialAvaliable()) {
+            serialParser();
         }
     }
     return 0;

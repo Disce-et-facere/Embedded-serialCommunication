@@ -1,5 +1,9 @@
 #include "macros.h"
 #include "stdint.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+#include "readWritePin.h"
 
 void serialInit() {
     UART_BAUD_REG_HIGH = (unsigned char)((UBRR_VALUE) >> 8);
@@ -8,7 +12,11 @@ void serialInit() {
     UART_CONTROL_REG_C = (3 << UCSZ00);
 }
 
-void serialWrite(unsigned char data) {
+uint8_t serialAvaliable(){
+    return UART_CONTROL_REG_A & (1 << RXC0);
+}
+
+void serialWrite(uint8_t data) {
     // Wait for empty transmit buffer
     while (!(UART_CONTROL_REG_A & (1 << UDRE0)));
     UART_DATA_REG = data;
@@ -21,33 +29,60 @@ uint8_t serialRead() {
 }
 
 void serialWriteString(const char* str) {
-    // Loop through the string until the null terminator is reached
     while (*str != '\0') {
-        // Send each character
         serialWrite(*str);
-        // Move to the next character in the string
         str++;
     }
 }
 
-void serialReadString(char* buffer, uint8_t maxLength) {
+char* serialReadString() {
     uint8_t index = 0;
     char receivedChar;
-
-    // Read characters until maxLength is reached or until a null terminator is received
+    uint8_t bufferSize = 1;
+    char* buffer = (char*)malloc(bufferSize * sizeof(char));
+    if (buffer == NULL) {
+        return NULL;
+    }
     do {
-        // Wait for data to be available
         while (!(UART_CONTROL_REG_A & (1 << RXC0)));
-        // Read the received character
         receivedChar = serialRead();
-
-        // Store the received character in the buffer
         buffer[index] = receivedChar;
         index++;
-    } while (receivedChar != '\0' && index < maxLength);
+        bufferSize++;
+        buffer = (char*)realloc(buffer, bufferSize * sizeof(char));
+        if (buffer == NULL) {
+            free(buffer);
+            return NULL;
+        }
+    } while (receivedChar != '\n');
+    return buffer;
+}
 
-    // Ensure the buffer is null-terminated
-    if (index < maxLength) {
-        buffer[index] = '\0';
+void serialParser(){
+    //commands
+    char ledpower[11] = "ledpower \n\0";
+    char invalid[16] = "Invalid Input!\n\0";
+    char* buffPointer = serialReadString();
+    char buff[14];
+    strncpy(buff, buffPointer, 12);
+    buff[12] = '\n';
+    buff[13] = '\0';
+
+    if(strncmp(buff, ledpower, 9) == 0){
+        int value;
+        if(sscanf(buffPointer, "%*s %d", &value) == 1) {
+            serialWriteString(buff);
+            if(value > 127 && value < 256){
+                setPinBit(&PORTB, PB0);
+            }else if(value <= 127 && value > 0){
+                clearPinBit(&PORTB, PB0);
+            }else{
+                char badValue[44] = "Power value is either too high or too low!\n\0";
+                serialWriteString(badValue);
+            }
+        }
+    }else{
+        serialWriteString(invalid);
     }
+    free(buffPointer);
 }
