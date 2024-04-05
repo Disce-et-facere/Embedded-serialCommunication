@@ -1,7 +1,7 @@
 # Embedded-Serial communication
 
 ## Setup
-1. start new platformIO project.
+1. start a new platformIO project.
 2. Board Arduino uno
 3. Framework arduino
 4. Open platformIO.ini and remove "Framework = arduino" line. (Check the ini file in the repo for example.)
