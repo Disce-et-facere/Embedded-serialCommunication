@@ -9,6 +9,7 @@
 #define BAUD 9600   // baud rate
 #define UBRR_VALUE (CPU_SPEED / (16UL * BAUD)) - 1 // USART BAUD RATE REGISTER VALUE
 
+// Initiates serial communication settings
 void serialInit() {
     UBRR0H = (unsigned char)((UBRR_VALUE) >> 8); // baud configuration, sets the UBRR high byte
     UBRR0L = (unsigned char)UBRR_VALUE; // baud configuration, sets the UBRR LOW byte
@@ -16,8 +17,9 @@ void serialInit() {
     UCSR0C = (3 << UCSZ00); // sets the char size to 8 byte
 }
 
+// checks ifs buffer is containing byte(s)
 uint8_t serialAvaliable(){
-    return UCSR0A & (1 << RXC0); // checks ifs buffer is containing byte(s)
+    return UCSR0A & (1 << RXC0); 
 }
 
 // transmit single char
