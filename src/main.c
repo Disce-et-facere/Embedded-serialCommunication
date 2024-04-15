@@ -5,13 +5,12 @@
 int main(void){ 
     pinInit();
     serialInit();
-    char message[23] = "Enter: ledpower 0-255\n\0";
-    serialWriteString(message);
+    serialWriteLine("Enter: ledpower 0-255");
     while (1) {
-        if (!digitalRead(PINB, PB1)) {
-            togglePinBit(&PORTB, PB0);
+        if (!digitalRead(BUTTON_PIN_REGISTER, BUTTON_PIN)) {
+            togglePinBit(&LED_PORT, LED_PIN);
         }
-
+        
         if (serialAvaliable()) {
             serialParser();
         }
