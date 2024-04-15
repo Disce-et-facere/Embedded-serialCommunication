@@ -8,10 +8,15 @@
 #define PINB  (*(volatile uint8_t *)0x23) // PIN REGISTER B
 #define PB0 0 // pin 8 led
 #define PB1 1 // pin 9 button
-// general macros
-#define OUTPUT 1
-#define INPUT 0
-#define INPUT_PULLUP 2
+#define LED_PIN PB0
+#define LED_DDR DDRB
+#define LED_PORT PORTB
+#define LED_PIN_REGISTER PINB
+#define BUTTON_PIN PB1
+#define BUTTON_DDR DDRB
+#define BUTTON_PORT PORTB
+#define BUTTON_PIN_REGISTER PINB
+
 // Serial Register addresses and Bits.
 #define UDR0   (*(volatile uint8_t *)0xC6) // USART DATA REGISTER 0 (Universal Synchronous/Asynchronous Receiver-Transmitter)
 #define UBRR0H (*(volatile uint8_t *)0xC5) // USART BAUD REGISTER HIGH
@@ -31,5 +36,10 @@
 #define RXC0   7 // USART CONTROL REGISTER A BIT 7
 #define UDRE0  5 // USART CONTROL REGISTER A BIT 6
 #define UCSZ00 1 // USART CONTROL REGISTER C BIT 1
+
+// general macros
+#define OUTPUT 1
+#define INPUT 0
+#define INPUT_PULLUP 2
 
 #endif  // MACROS_H
