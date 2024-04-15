@@ -13,8 +13,8 @@ void pinMode(volatile uint8_t *dataDirection, uint8_t pin, uint8_t state) {
 }
 
 void pinInit(){
-    pinMode(&DDRB, PB0, OUTPUT);
-    pinMode(&DDRB, PB1, INPUT_PULLUP);
+    pinMode(&DDRB, LED_PIN, OUTPUT);
+    pinMode(&DDRB, BUTTON_PIN, INPUT_PULLUP);
 }
 
 uint8_t digitalRead(uint8_t pinReg, uint8_t pin){
